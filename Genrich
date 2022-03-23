@@ -1,0 +1,63 @@
+#!/bin/bash
+#SBATCH -c 1
+#SBATCH -t 0-06:00
+#SBATCH -p holy-smokes
+#SBATCH --mem=5000
+#SBATCH -o genrich_%j.out
+#SBATCH -e genrich_%j.err
+#SBATCH --mail-type=END
+#SBATCH --mail-user=subirshakya@fas.harvard.edu
+
+module load Genrich/0.5-fasrc01
+
+cd /n/holyscratch01/informatics/sshakya/ATAC
+
+#Uses Genrich to call atac-peaks. -r removes pcr duplicates, -e removes mitochondrial sequence
+#Replicates for each run are separated by , in -t
+
+Genrich -t ./bams/SRR12322432.bam,./bams/SRR12322433.bam,./bams/SRR12322434.bam,./bams/SRR12322435.bam -o ./beds/duodenum.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR11916722.bam,./bams/SRR11916723.bam,./bams/SRR11916724.bam -o ./beds/cone_cell_e5_+.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR11916725.bam,./bams/SRR11916726.bam -o ./beds/cone_cell_e5_-.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR10533482.bam,./bams/SRR10533483.bam -o ./beds/retinal_cell_e5-6.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR13428042.bam,./bams/SRR13428041.bam -o ./beds/wing_bud_HH24.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR13428040.bam,./bams/SRR13428039.bam -o ./beds/wing_bud_HH22.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR13428038.bam,./bams/SRR13428037.bam -o ./beds/wing_bud_HH20.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR12965854.bam -o ./beds/ebiplast_HH3.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR11878467.bam,./bams/SRR11878466.bam -o ./beds/limb_bud_HH24.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR10917286.bam,./bams/SRR10917285.bam,./bams/SRR10917274.bam -o ./beds/presomitic_mesoderm_HH14.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR10917266.bam,./bams/SRR10917265.bam,./bams/SRR10917264.bam -o ./beds/epithelial_somites_HH14.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR10917280.bam,./bams/SRR10917281.bam,./bams/SRR10917282.bam -o ./beds/maturing_somites_HH14.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR10917276.bam,./bams/SRR10917275.bam,./bams/SRR10917273.bam -o ./beds/differentiated_somites_HH14.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR10059742.bam,./bams/SRR10059741.bam,./bams/SRR10059740.bam -o ./beds/hindlimb_HH18.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR10059737.bam,./bams/SRR10059738.bam,./bams/SRR10059739.bam -o ./beds/forelimb_HH18.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR10059734.bam,./bams/SRR10059735.bam,./bams/SRR10059736.bam -o ./beds/flank_HH18.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR10279641.bam,./bams/SRR10279640.bam -o ./beds/neural_crest_HH9.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR10279639.bam,./bams/SRR10279638.bam -o ./beds/neural_crest_HH6.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR8492067.bam,./bams/SRR8492066.bam,./bams/SRR8492065.bam -o ./beds/negative_control_NC2-_E2-_HH25.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR8492064.bam,./bams/SRR8492063.bam,./bams/SRR8492062.bam -o ./beds/neural_crest_NC2-_HH25.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR8492061.bam,./bams/SRR8492060.bam,./bams/SRR8492059.bam -o ./beds/neural_crest_NC2+_HH25.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR8492058.bam,./bams/SRR8492057.bam,./bams/SRR8492056.bam -o ./beds/negative_control_NC2-_E2-_HH18.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR8492055.bam,./bams/SRR8492054.bam,./bams/SRR8492053.bam -o ./beds/neural_crest_NC2-_E2+_HH18.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR8492052.bam,./bams/SRR8492051.bam,./bams/SRR8492050.bam -o ./beds/neural_crest_NC2+_E2+_HH18.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR8492049.bam,./bams/SRR8492048.bam,./bams/SRR8492047.bam -o ./beds/neural_crest_E2+_HH12.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR8492046.bam,./bams/SRR8492045.bam,./bams/SRR8492044.bam -o ./beds/negative_control_NC2-_HH12.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR8492043.bam,./bams/SRR8492042.bam,./bams/SRR8492041.bam -o ./beds/neural_crest_NC2+_HH12_.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR8062752.bam,./bams/SRR8062751.bam,./bams/SRR8062750.bam,./bams/SRR8062749.bam -o ./beds/non-neural_crest_8-10ss.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR8062748.bam,./bams/SRR8062747.bam,./bams/SRR8062746.bam,./bams/SRR8062745.bam -o ./beds/non-neural_crest_5-6ss.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR8062744.bam,./bams/SRR8062743.bam,./bams/SRR8062742.bam -o ./beds/neural_crest_8-10ss_FOXD3.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR8062741.bam,./bams/SRR8062740.bam -o ./beds/epiblast_HH4.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR8062739.bam -o ./beds/somites_HH10.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR8062737.bam -o ./beds/neural_crest_5-6ss_pax7.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR8062736.bam,./bams/SRR8062735.bam -o ./beds/neural_crest_5-6ss_FOXD3.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR6782021.bam,./bams/SRR6782020.bam -o ./beds/metatarsal_skin_e12_retinoic_acid.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR6782019.bam,./bams/SRR6782018.bam -o ./beds/metatarsal_skin_e12_RCAS-GFP.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR6782017.bam,./bams/SRR6782016.bam -o ./beds/metatarsal_skin_e12_RCAS-CTNNB1.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR6713569.bam,./bams/SRR6713570.bam,./bams/SRR6713592.bam -o ./beds/keel_e10.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR6713571.bam,./bams/SRR6713572.bam,./bams/SRR6713577.bam -o ./beds/hindlimb_e4.5.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR6713573.bam,./bams/SRR6713574.bam,./bams/SRR6713580.bam -o ./beds/full_sternum_e10.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR6713575.bam,./bams/SRR6713576.bam,./bams/SRR6713578.bam -o ./beds/inferior_sternum_e9.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR6713579.bam,./bams/SRR6713585.bam,./bams/SRR6713586.bam -o ./beds/forelimb_e4.5.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR6713581.bam,./bams/SRR6713583.bam,./bams/SRR6713584.bam -o ./beds/flight_muscle_e10.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR6713582.bam,./bams/SRR6713587.bam,./bams/SRR6713588.bam -o ./beds/flight_muscle_e9.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR6713589.bam,./bams/SRR6713590.bam,./bams/SRR6713591.bam -o ./beds/superior_sternum_e9.bed -j -e NC_053523.1 -r
+Genrich -t ./bams/SRR6418911.bam -o ./beds/FNP_cells_HH24.bed -j -e NC_053523.1 -r
