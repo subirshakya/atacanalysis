@@ -1,0 +1,18 @@
+#!/bin/bash
+#SBATCH -c 6
+#SBATCH -t 0-06:00
+#SBATCH -p shared
+#SBATCH --mem=5000
+#SBATCH -o ngmerge_%j.out
+#SBATCH -e ngmerge_%j.err
+#SBATCH --mail-type=END
+#SBATCH --mail-user=subirshakya@fas.harvard.edu
+
+cd /n/holyscratch01/informatics/sshakya/ATAC
+
+module load NGmerge/0.3-fasrc01
+
+#loops over fasta file using SRA accessions in file and uses NGmerge to remove adapter issues
+while IFS= read -r line; do
+        NGmerge -a -1 ./fastq/${line}_1.fastq -2 ./fastq/${line}_2.fastq -o ./fastq_ngmerge/${line} -v -u 73 -n 6
+done < "acc_list.txt"
