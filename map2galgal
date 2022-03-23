@@ -1,0 +1,25 @@
+#!/bin/bash
+#SBATCH -c 12
+#SBATCH -t 1-00:00
+#SBATCH -p shared
+#SBATCH --mem=5000
+#SBATCH -o bam_%j.out
+#SBATCH -e bam_%j.err
+#SBATCH --mail-type=END
+#SBATCH --mail-user=subirshakya@fas.harvard.edu
+
+module load bwa/0.7.17-fasrc01
+module load intel/2017c impi/2017.4.239 SAMtools/1.9
+
+cd /n/holyscratch01/informatics/sshakya/ATAC
+
+bwa index ~/refseq/galgal7b.fna
+samtools faidx ~/refseq/galgal7b.fna
+samtools dict ~/refseq/galgal7b.fna -o ~/refseq/galgal7b.dict
+
+while IFS= read -r line; do
+        bwa mem -t 10 ~/refseq/galgal7b.fna ./fastq_ngmerge/${line}_1.fastq ./fastq_ngmerge/${line}_2.fastq |
+    samtools view -b -u |
+    samtools sort --threads 8 -n -o ./bams/${line}.bam
+done < "acc_list.txt"
+
