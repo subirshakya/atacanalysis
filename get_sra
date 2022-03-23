@@ -10,8 +10,8 @@
 
 cd /n/holyscratch01/informatics/sshakya/ATAC
 
-#uses sra-toolkit prefetch to gather SRA files. older prefetch downloads default to home directory so used the latest version of prefetch \
-which uses -O to direct output
+#uses sra-toolkit prefetch to gather SRA files. older prefetch downloads default to home directory so used the latest version of prefetch
+#which uses -O to direct output
 
 ~/apps/sratoolkit/bin/prefetch \
 SRR12322432 SRR12322433 SRR12322434 SRR12322435 SRR11916722 SRR11916723 SRR11916724 SRR11916725 SRR11916726 SRR10533482 SRR10533483 SRR13428042 \
