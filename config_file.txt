@@ -1,17 +1,22 @@
 [data]
+#if data needs to be split include only pos and neg and include --split flag
 fasta_pos=/mnt/c/Subir/Projects/ATAC-data/machine_learn/flank_bed_train.fa
 fasta_neg=/mnt/c/Subir/Projects/ATAC-data/machine_learn/neg_bed_train.fa
 
+#or include the four fasta files correspdoning to training and validation datasets
 train_pos=
 train_neg=
 valid_pos=
 valid_neg=
 
 [eval]
+#include any fasta files you want to use for evaluation. 
+#variable name will be used as filename for output, can include as many files as you want
 flank_pos=/mnt/c/Subir/Projects/ATAC-data/machine_learn/flank_bed_eval.fa
 rand=/mnt/c/Subir/Projects/ATAC-data/machine_learn/neg_bed_eval.fa
 
 [options]
+#values for output folder, sequence length, train:valid ration, batch size, number of epochs to run, and filename for model
 working_folder=/mnt/c/Subir/Projects/ATAC-data/machine_learn/
 max_seq_len=5000
 valid_ratio=0.3
@@ -20,6 +25,7 @@ epoch=30
 name=test
 
 [scheduler]
+#values for cycle optimization for learning rates (lr) and momentum (m)
 base_lr=1e-5
 max_lr=0.1
 base_m=0.875
@@ -28,6 +34,7 @@ l2_reg=1e-6
 n_cycles=2.5
 
 [model]
+#values for models; increase number of (filters, dropout rate) to increase number of layers
 2D_conv_filters=[(300, 0.2), (300, 0.2), (300, 0.2)]
 2D_conv_size=11
 2D_conv_stride=1
