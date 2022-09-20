@@ -16,6 +16,7 @@ import tensorflow as tf
 import tensorflow.keras.backend as K
 
 class CyclicLR(tf.keras.callbacks.Callback):
+    #This creates a method to control how the learning rate is adapted over cycles
     def __init__(self,base_lr, max_lr, step_size, base_m, max_m, cyclical_momentum):
       self.base_lr = base_lr
       self.max_lr = max_lr
@@ -73,8 +74,12 @@ class CyclicLR(tf.keras.callbacks.Callback):
         K.set_value(self.model.optimizer.momentum, self.cm())
 
 def get_model(input_shape, hp):
+    #This creates the neural network method. 
     model = Sequential()
     # Convolutional Layers
+    #The 2D convolutional layers are the nodes that learn. The range gives the number of layers, 
+    #the filters are the number of nodes per layer, the size and stride are the dimensions of each node
+    #dropout rates control overfitting
     for i in range(len(hp["filters"])):
       model.add(Conv2D(filters = hp["filters"][i][0], kernel_size = (hp["size"],4 if i == 0 else hp["stride"]),
                       activation='relu', kernel_initializer='he_normal',
@@ -113,6 +118,7 @@ def get_model(input_shape, hp):
     return model
 
 def train_model_clr(x_train, y_train, x_valid, y_valid, hp):
+    #have not fully incorporated the class imbalance
     # dealing w/ class imbalance
     total = y_train.shape[0]
     weight_for_0 = (1 / np.sum(y_train==0))*(total)/2.0
@@ -155,6 +161,7 @@ def train_model_clr(x_train, y_train, x_valid, y_valid, hp):
     return model, scheduler, hist, [], []
 
 def onehot_seq(seq, largest):
+    #code sequences into a matrix with 4 states which is 1 for that particular nucleotide
     letter_to_index =  {'A':0, 'a':0,
                         'C':1, 'c':1,
                         'G':2, 'g':2,
@@ -167,6 +174,7 @@ def onehot_seq(seq, largest):
 
 
 def encode_sequence(fasta, largest, pos="+"):
+    #Encode sequence into one-hot format and create a positive or negative designation for the matrix
     x = []
     for seq in tqdm(SeqIO.parse(fasta, "fasta")):
         if len(seq) > largest:
@@ -183,6 +191,7 @@ def encode_sequence(fasta, largest, pos="+"):
     return x, y
 
 def load_data(hp):
+    #Load fasta files
     if os.path.exists(os.path.join(hp["working_folder"],"model_output", hp["model_name"]+"train_fasta.npy")) and not hp["rewrite"]:
         print("output folder model_output already contains loaded data, loading that (to force use --force)")
         print("loading training data...")
@@ -214,6 +223,7 @@ def load_data(hp):
     return x_train, y_train, x_valid, y_valid
 
 def split_data(fasta, name, ratio):
+    #Split data into positive and negative sets based on a random assignment following a ration of positive:negative data
     total_lines = len([1 for line in open(fasta) if line.startswith(">")])
     nums = range(0, total_lines)
     train = sample(nums, int(total_lines * (1-ratio)))
